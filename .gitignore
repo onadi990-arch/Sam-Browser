@@ -1,7 +1,4 @@
-*.png
-*.zip
-*.jpg
-*.jpeg
+
 Task*
 .gradle/
 build/
