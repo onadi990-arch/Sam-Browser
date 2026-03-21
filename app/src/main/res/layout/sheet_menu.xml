@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="#2c2c30"
+    android:paddingTop="8dp"
+    android:paddingBottom="16dp">
+
+    <LinearLayout android:id="@+id/menuNewTab" style="@style/MenuItemStyle">
+        <ImageView style="@style/MenuIconStyle" android:src="@drawable/ic_add" />
+        <TextView style="@style/MenuTextStyle" android:text="New Tab" />
+    </LinearLayout>
+
+    <LinearLayout android:id="@+id/menuAddBookmark" style="@style/MenuItemStyle">
+        <ImageView style="@style/MenuIconStyle" android:src="@drawable/ic_bookmark_add" />
+        <TextView style="@style/MenuTextStyle" android:text="Add Bookmark" />
+    </LinearLayout>
+
+    <LinearLayout android:id="@+id/menuBookmarks" style="@style/MenuItemStyle">
+        <ImageView style="@style/MenuIconStyle" android:src="@drawable/ic_bookmarks" />
+        <TextView style="@style/MenuTextStyle" android:text="Bookmarks" />
+    </LinearLayout>
+
+    <LinearLayout android:id="@+id/menuHistory" style="@style/MenuItemStyle">
+        <ImageView style="@style/MenuIconStyle" android:src="@drawable/ic_history" />
+        <TextView style="@style/MenuTextStyle" android:text="History" />
+    </LinearLayout>
+
+    <LinearLayout android:id="@+id/menuFindInPage" style="@style/MenuItemStyle">
+        <ImageView style="@style/MenuIconStyle" android:src="@drawable/ic_search" />
+        <TextView style="@style/MenuTextStyle" android:text="Find in Page" />
+    </LinearLayout>
+
+    <LinearLayout android:id="@+id/menuDesktopMode" style="@style/MenuItemStyle">
+        <ImageView style="@style/MenuIconStyle" android:src="@drawable/ic_desktop" />
+        <TextView android:id="@+id/tvDesktopMode" style="@style/MenuTextStyle" android:text="Desktop Mode" />
+    </LinearLayout>
+
+    <LinearLayout android:id="@+id/menuSharePage" style="@style/MenuItemStyle">
+        <ImageView style="@style/MenuIconStyle" android:src="@drawable/ic_share" />
+        <TextView style="@style/MenuTextStyle" android:text="Share Page" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#3a3a3e"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp" />
+
+    <LinearLayout android:id="@+id/menuSettings" style="@style/MenuItemStyle">
+        <ImageView style="@style/MenuIconStyle" android:src="@drawable/ic_settings" />
+        <TextView style="@style/MenuTextStyle" android:layout_weight="1" android:text="Settings" />
+        <ImageView
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:src="@drawable/ic_chevron_down"
+            android:tint="#555"
+            android:rotation="-90" />
+    </LinearLayout>
+
+</LinearLayout>

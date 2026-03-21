@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#1a1a1e">
+
+    <!-- Toolbar -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="#1e1e22"
+        android:paddingStart="4dp"
+        android:paddingEnd="16dp"
+        android:elevation="4dp">
+        <ImageButton
+            android:id="@+id/btnBack"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_arrow_back"
+            android:tint="#ffffff"
+            android:contentDescription="Back" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Settings"
+            android:textColor="#ffffff"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- ── SECURITY & BYPASS ─────────────────────────── -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="SECURITY &amp; BYPASS"
+                android:textColor="#4A90E2"
+                android:textSize="11sp"
+                android:letterSpacing="0.1"
+                android:layout_marginBottom="6dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="#2c2c30"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp">
+
+                <LinearLayout style="@style/MenuItemStyle">
+                    <ImageView style="@style/MenuIconStyle" android:src="@drawable/ic_shield" />
+                    <TextView style="@style/MenuTextStyle" android:layout_weight="1" android:text="Bypass Script" />
+                    <Switch android:id="@+id/switchBypass" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+                </LinearLayout>
+
+                <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#3a3a3e" android:layout_marginStart="56dp" />
+
+                <LinearLayout style="@style/MenuItemStyle">
+                    <ImageView style="@style/MenuIconStyle" android:src="@drawable/ic_bug" />
+                    <TextView style="@style/MenuTextStyle" android:layout_weight="1" android:text="Sniffer Script" />
+                    <Switch android:id="@+id/switchSniffer" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+                </LinearLayout>
+
+                <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#3a3a3e" android:layout_marginStart="56dp" />
+
+                <LinearLayout style="@style/MenuItemStyle">
+                    <ImageView style="@style/MenuIconStyle" android:src="@drawable/ic_shield" />
+                    <TextView style="@style/MenuTextStyle" android:layout_weight="1" android:text="Ad Blocker" />
+                    <Switch android:id="@+id/switchAdBlock" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+                </LinearLayout>
+
+                <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#3a3a3e" android:layout_marginStart="56dp" />
+
+                <LinearLayout style="@style/MenuItemStyle">
+                    <ImageView style="@style/MenuIconStyle" android:src="@drawable/ic_chrome" />
+                    <TextView style="@style/MenuTextStyle" android:layout_weight="1" android:text="Disguise as Chrome" />
+                    <Switch android:id="@+id/switchChromeDisguise" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- ── BROWSER ───────────────────────────────────── -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="BROWSER"
+                android:textColor="#4A90E2"
+                android:textSize="11sp"
+                android:letterSpacing="0.1"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="6dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="#2c2c30"
+                android:paddingTop="4dp"
+                android:paddingBottom="8dp">
+
+                <LinearLayout style="@style/MenuItemStyle">
+                    <ImageView style="@style/MenuIconStyle" android:src="@drawable/ic_arrow_back" />
+                    <TextView style="@style/MenuTextStyle" android:layout_weight="1" android:text="System Back Button" />
+                    <Switch android:id="@+id/switchBackBtn" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+                </LinearLayout>
+
+                <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#3a3a3e" android:layout_marginStart="56dp" />
+
+                <LinearLayout style="@style/MenuItemStyle">
+                    <ImageView style="@style/MenuIconStyle" android:src="@drawable/ic_search" />
+                    <TextView style="@style/MenuTextStyle" android:layout_weight="1" android:text="Force Text Selection" />
+                    <Switch android:id="@+id/switchTextSelect" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+                </LinearLayout>
+
+                <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#3a3a3e" android:layout_marginStart="56dp" />
+
+                <!-- Search Engine -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="4dp">
+
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center_vertical">
+                        <ImageView style="@style/MenuIconStyle" android:src="@drawable/ic_search" />
+                        <TextView style="@style/MenuTextStyle" android:text="Search Engine" />
+                    </LinearLayout>
+
+                    <RadioGroup
+                        android:id="@+id/rgSearchEngine"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginStart="40dp"
+                        android:layout_marginTop="6dp"
+                        android:layout_marginBottom="4dp">
+                        <RadioButton
+                            android:id="@+id/rbGoogle"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Google"
+                            android:textColor="#cccccc"
+                            android:buttonTint="#4A90E2" />
+                        <RadioButton
+                            android:id="@+id/rbDDG"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="DuckDuckGo"
+                            android:textColor="#cccccc"
+                            android:buttonTint="#4A90E2" />
+                        <RadioButton
+                            android:id="@+id/rbBing"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Bing"
+                            android:textColor="#cccccc"
+                            android:buttonTint="#4A90E2" />
+                    </RadioGroup>
+                </LinearLayout>
+
+                <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#3a3a3e" android:layout_marginStart="56dp" />
+
+                <!-- Text Size -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="4dp">
+
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center_vertical">
+                        <ImageView style="@style/MenuIconStyle" android:src="@drawable/ic_search" />
+                        <TextView style="@style/MenuTextStyle" android:layout_weight="1" android:text="Text Size" />
+                        <TextView
+                            android:id="@+id/tvTextSizePct"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="#888"
+                            android:textSize="13sp"
+                            android:text="100%" />
+                    </LinearLayout>
+
+                    <SeekBar
+                        android:id="@+id/seekTextSize"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="4dp"
+                        android:max="6"
+                        android:progress="2"
+                        android:progressTint="#4A90E2"
+                        android:thumbTint="#4A90E2" />
+                </LinearLayout>
+
+                <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#3a3a3e" android:layout_marginStart="56dp" />
+
+                <!-- Refresh Hold Delay -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="4dp">
+
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center_vertical">
+                        <ImageView style="@style/MenuIconStyle" android:src="@drawable/ic_refresh" />
+                        <TextView style="@style/MenuTextStyle" android:layout_weight="1" android:text="Refresh Hold Delay" />
+                        <TextView
+                            android:id="@+id/tvRefreshDelayMs"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="#888"
+                            android:textSize="13sp"
+                            android:text="600ms" />
+                    </LinearLayout>
+
+                    <SeekBar
+                        android:id="@+id/seekRefreshDelay"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="4dp"
+                        android:max="19"
+                        android:progress="5"
+                        android:progressTint="#4A90E2"
+                        android:thumbTint="#4A90E2" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- ── HOMEPAGE ───────────────────────────────────── -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="HOMEPAGE"
+                android:textColor="#4A90E2"
+                android:textSize="11sp"
+                android:letterSpacing="0.1"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="6dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="#2c2c30"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp">
+
+                <LinearLayout android:id="@+id/menuSetHomepage" style="@style/MenuItemStyle">
+                    <ImageView style="@style/MenuIconStyle" android:src="@drawable/ic_add" />
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+                        <TextView style="@style/MenuTextStyle" android:text="Homepage URL" />
+                        <TextView
+                            android:id="@+id/tvCurrentHomepage"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="#888"
+                            android:textSize="11sp"
+                            android:ellipsize="end"
+                            android:singleLine="true"
+                            android:text="https://www.google.com" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- ── PRIVACY ────────────────────────────────────── -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="PRIVACY"
+                android:textColor="#4A90E2"
+                android:textSize="11sp"
+                android:letterSpacing="0.1"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="6dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="#2c2c30"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp">
+
+                <LinearLayout android:id="@+id/menuClearHistory" style="@style/MenuItemStyle">
+                    <ImageView style="@style/MenuIconStyle" android:src="@drawable/ic_history" />
+                    <TextView style="@style/MenuTextStyle" android:text="Clear History" />
+                </LinearLayout>
+
+                <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#3a3a3e" android:layout_marginStart="56dp" />
+
+                <LinearLayout android:id="@+id/menuClearCache" style="@style/MenuItemStyle">
+                    <ImageView style="@style/MenuIconStyle" android:src="@drawable/ic_refresh" />
+                    <TextView style="@style/MenuTextStyle" android:text="Clear Cache" />
+                </LinearLayout>
+
+                <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#3a3a3e" android:layout_marginStart="56dp" />
+
+                <LinearLayout android:id="@+id/menuClearCookies" style="@style/MenuItemStyle">
+                    <ImageView style="@style/MenuIconStyle" android:src="@drawable/ic_shield" />
+                    <TextView style="@style/MenuTextStyle" android:text="Clear Cookies" />
+                </LinearLayout>
+
+                <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#3a3a3e" android:layout_marginStart="56dp" />
+
+                <LinearLayout android:id="@+id/menuClearAll" style="@style/MenuItemStyle">
+                    <ImageView style="@style/MenuIconStyle" android:src="@drawable/ic_delete" />
+                    <TextView
+                        style="@style/MenuTextStyle"
+                        android:textColor="#e53935"
+                        android:text="Clear All Data" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- bottom breathing room -->
+            <View android:layout_width="match_parent" android:layout_height="32dp" />
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</LinearLayout>

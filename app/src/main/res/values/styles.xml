@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">#4A90E2</item>
+        <item name="colorPrimaryDark">#1a1a1e</item>
+        <item name="colorAccent">#4A90E2</item>
+        <item name="android:windowBackground">#1a1a1e</item>
+        <item name="bottomSheetDialogTheme">@style/BottomSheetTheme</item>
+    </style>
+
+    <style name="BottomSheetTheme" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/BottomSheet</item>
+        <item name="android:windowIsFloating">false</item>
+    </style>
+
+    <style name="BottomSheet" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+
+    <style name="MenuItemStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">52dp</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:paddingStart">16dp</item>
+        <item name="android:paddingEnd">16dp</item>
+        <item name="android:background">?attr/selectableItemBackground</item>
+    </style>
+
+    <style name="MenuIconStyle">
+        <item name="android:layout_width">24dp</item>
+        <item name="android:layout_height">24dp</item>
+        <item name="android:tint">#888888</item>
+        <item name="android:layout_marginEnd">16dp</item>
+    </style>
+
+    <style name="MenuTextStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <style name="HomepageDialogTheme" parent="Theme.MaterialComponents.DayNight.Dialog.Alert">
+        <item name="colorSurface">#2c2c30</item>
+        <item name="android:textColorPrimary">#ffffff</item>
+        <item name="colorPrimary">#4A90E2</item>
+        <item name="android:background">#2c2c30</item>
+    </style>
+
+</resources>

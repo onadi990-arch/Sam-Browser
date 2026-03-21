@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:background="?attr/selectableItemBackground"
+    android:paddingStart="16dp"
+    android:paddingEnd="8dp"
+    android:paddingTop="12dp"
+    android:paddingBottom="12dp"
+    android:gravity="center_vertical">
+
+    <!-- Active indicator -->
+    <View
+        android:id="@+id/activeIndicator"
+        android:layout_width="3dp"
+        android:layout_height="36dp"
+        android:background="#4A90E2"
+        android:layout_marginEnd="12dp" />
+
+    <!-- Tab info -->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvTabTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#ffffff"
+            android:textSize="14sp"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="New Tab" />
+
+        <TextView
+            android:id="@+id/tvTabUrl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#888888"
+            android:textSize="12sp"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:layout_marginTop="2dp"
+            android:text="about:blank" />
+
+    </LinearLayout>
+
+    <!-- Close button -->
+    <ImageButton
+        android:id="@+id/btnCloseTab"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:src="@drawable/ic_close"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:tint="#888888"
+        android:contentDescription="Close tab" />
+
+</LinearLayout>

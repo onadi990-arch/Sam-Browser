@@ -1,0 +1,14 @@
+*.png
+*.zip
+*.jpg
+*.jpeg
+Task*
+.gradle/
+build/
+local.properties
+*.iml
+.idea/
+*.jks
+*.keystore
+.DS_Store
+Thumbs.db
