@@ -80,6 +80,7 @@ class MainActivity : AppCompatActivity() {
     private var barAnimator: ViewPropertyAnimator? = null
     private var lastScrollMs = 0L
     private val scope = CoroutineScope(Dispatchers.Main + SupervisorJob())
+    private var ytDlpReady = false
 
     companion object {
         const val PREFS_NAME = "SamBrowserPrefs"
@@ -424,6 +425,11 @@ class MainActivity : AppCompatActivity() {
             createNewTab(homeUrl)
         }
 
+        // Ensure yt-dlp binary is present in background
+        scope.launch(Dispatchers.IO) {
+            ytDlpReady = VideoDownloaderManager.ensureInstalled(this@MainActivity)
+        }
+
         // After first layout: record bar height, pad webview so content starts below bar
         topBar.post {
             topBarFullHeight = topBar.height
@@ -438,7 +444,7 @@ class MainActivity : AppCompatActivity() {
     private fun loadScriptPrefs() {
         val prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
         bypassEnabled        = prefs.getBoolean("bypass_enabled", true)
-        snifferEnabled       = prefs.getBoolean("sniffer_enabled", true)
+        snifferEnabled       = prefs.getBoolean("sniffer_enabled", false)
         hardwareBackEnabled  = prefs.getBoolean("hardware_back_enabled", true)
         adBlockEnabled       = prefs.getBoolean("adblock_enabled", true)
         forceTextSelectEnabled = prefs.getBoolean("force_text_select", false)
@@ -734,6 +740,11 @@ class MainActivity : AppCompatActivity() {
                         }
                     }
 
+                    // Inject custom "start" scripts
+                    CustomJsManager.forStage(this@MainActivity, "start").forEach { s ->
+                        view.evaluateJavascript(s.code, null)
+                    }
+
                     tabs.find { it.webView === view }?.url = url
                     if (view === currentWebView()) {
                         addressBar.setText(url)
@@ -763,6 +774,11 @@ class MainActivity : AppCompatActivity() {
 
                     if (forceTextSelectEnabled) {
                         view.evaluateJavascript(forceTextSelectScript, null)
+                    }
+
+                    // Inject custom "finish" scripts
+                    CustomJsManager.forStage(this@MainActivity, "finish").forEach { s ->
+                        view.evaluateJavascript(s.code, null)
                     }
                 }
 
@@ -1317,6 +1333,10 @@ document.getElementById('out').innerHTML = md(raw);
             startActivity(Intent.createChooser(share, "Share page"))
             dialog.dismiss()
         }
+        view.findViewById<LinearLayout>(R.id.menuDownloadVideo).setOnClickListener {
+            dialog.dismiss()
+            showDownloadSheet()
+        }
         view.findViewById<LinearLayout>(R.id.menuSettings).setOnClickListener {
             dialog.dismiss()
             startActivity(Intent(this, SettingsActivity::class.java))
@@ -1324,6 +1344,110 @@ document.getElementById('out').innerHTML = md(raw);
 
         dialog.setContentView(view)
         dialog.show()
+    }
+
+    private fun showDownloadSheet() {
+        val url = currentWebView()?.url ?: run {
+            Toast.makeText(this, "No page loaded", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val dialog   = BottomSheetDialog(this)
+        val view     = layoutInflater.inflate(R.layout.sheet_download, null)
+        val tvTitle  = view.findViewById<TextView>(R.id.tvDlTitle)
+        val loading  = view.findViewById<LinearLayout>(R.id.dlLoading)
+        val tvStatus = view.findViewById<TextView>(R.id.tvDlStatus)
+        val rvFmts   = view.findViewById<RecyclerView>(R.id.rvFormats)
+        val tvError  = view.findViewById<TextView>(R.id.tvDlError)
+        val btnBest  = view.findViewById<android.widget.Button>(R.id.btnQuickBest)
+        val btnAudio = view.findViewById<android.widget.Button>(R.id.btnQuickAudio)
+        val quickBtns = view.findViewById<LinearLayout>(R.id.dlQuickButtons)
+
+        tvTitle.text = currentWebView()?.title?.take(60) ?: "Download"
+        dialog.setContentView(view)
+        dialog.show()
+
+        btnBest.setOnClickListener {
+            dialog.dismiss()
+            launchDownload(url, null, audioOnly = false)
+        }
+        btnAudio.setOnClickListener {
+            dialog.dismiss()
+            launchDownload(url, null, audioOnly = true)
+        }
+
+        scope.launch {
+            if (!ytDlpReady) {
+                tvStatus.text = "Setting up yt-dlp…"
+                ytDlpReady = withContext(Dispatchers.IO) {
+                    VideoDownloaderManager.ensureInstalled(this@MainActivity) { msg ->
+                        runOnUiThread { tvStatus.text = msg }
+                    }
+                }
+            }
+
+            if (!ytDlpReady) {
+                loading.visibility = View.GONE
+                tvError.visibility = View.VISIBLE
+                quickBtns.visibility = View.VISIBLE
+                return@launch
+            }
+
+            tvStatus.text = "Fetching formats…"
+            val formats = withContext(Dispatchers.IO) {
+                VideoDownloaderManager.getFormats(this@MainActivity, url)
+            }
+
+            loading.visibility = View.GONE
+            quickBtns.visibility = View.VISIBLE
+
+            if (formats.isEmpty()) {
+                tvError.visibility = View.VISIBLE
+                return@launch
+            }
+
+            val fmtAdapter = object : androidx.recyclerview.widget.RecyclerView.Adapter<
+                    androidx.recyclerview.widget.RecyclerView.ViewHolder>() {
+
+                inner class FH(v: View) :
+                    androidx.recyclerview.widget.RecyclerView.ViewHolder(v) {
+                    val tv: TextView = v.findViewById(R.id.tvFormatLabel)
+                }
+
+                override fun onCreateViewHolder(p: android.view.ViewGroup, t: Int) =
+                    FH(layoutInflater.inflate(R.layout.item_format, p, false))
+
+                override fun getItemCount() = formats.size
+
+                override fun onBindViewHolder(
+                    h: androidx.recyclerview.widget.RecyclerView.ViewHolder, i: Int
+                ) {
+                    (h as FH).tv.text = formats[i].displayLabel
+                    h.itemView.setOnClickListener {
+                        dialog.dismiss()
+                        launchDownload(url, formats[i], audioOnly = formats[i].isAudioOnly)
+                    }
+                }
+            }
+
+            rvFmts.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this@MainActivity)
+            rvFmts.adapter = fmtAdapter
+            rvFmts.visibility = View.VISIBLE
+        }
+    }
+
+    private fun launchDownload(url: String, format: VideoFormat?, audioOnly: Boolean) {
+        Toast.makeText(this, "Download started…", Toast.LENGTH_SHORT).show()
+        VideoDownloaderManager.startDownload(
+            ctx       = this,
+            url       = url,
+            format    = format,
+            audioOnly = audioOnly
+        ) { success, _ ->
+            if (!success) {
+                Toast.makeText(this, "Download failed. Check notification.", Toast.LENGTH_LONG).show()
+            }
+        }
     }
 
     private fun showHistory() {

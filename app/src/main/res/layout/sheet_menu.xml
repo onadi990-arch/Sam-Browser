@@ -42,6 +42,18 @@
         <TextView style="@style/MenuTextStyle" android:text="Share Page" />
     </LinearLayout>
 
+    <!-- Download Video — teal accent -->
+    <LinearLayout android:id="@+id/menuDownloadVideo" style="@style/MenuItemStyle">
+        <ImageView
+            style="@style/MenuIconStyle"
+            android:src="@drawable/ic_chevron_down"
+            android:tint="#26c6da" />
+        <TextView
+            style="@style/MenuTextStyle"
+            android:text="Download Video / Audio"
+            android:textColor="#26c6da" />
+    </LinearLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"

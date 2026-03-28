@@ -1,6 +1,7 @@
 package com.sam.browser
 
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.webkit.CookieManager
@@ -140,6 +141,11 @@ class SettingsActivity : AppCompatActivity() {
             CookieManager.getInstance().removeAllCookies(null)
             CookieManager.getInstance().flush()
             Toast.makeText(this, "All data cleared", Toast.LENGTH_SHORT).show()
+        }
+
+        // Custom JS Scripts
+        findViewById<LinearLayout>(R.id.menuCustomJs).setOnClickListener {
+            startActivity(Intent(this, CustomJsActivity::class.java))
         }
     }
 

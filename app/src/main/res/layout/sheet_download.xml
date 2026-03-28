@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="#2c2c30"
+    android:paddingTop="8dp"
+    android:paddingBottom="24dp">
+
+    <!-- Handle -->
+    <View
+        android:layout_width="40dp"
+        android:layout_height="4dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="12dp"
+        android:background="#555"
+        android:layout_marginTop="8dp" />
+
+    <TextView
+        android:id="@+id/tvDlTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Download"
+        android:textColor="#ffffff"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:paddingBottom="12dp" />
+
+    <!-- Loading state -->
+    <LinearLayout
+        android:id="@+id/dlLoading"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="20dp">
+
+        <ProgressBar
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginEnd="12dp" />
+
+        <TextView
+            android:id="@+id/tvDlStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Fetching formats…"
+            android:textColor="#aaa"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <!-- Format list -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvFormats"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:maxHeight="320dp"
+        android:visibility="gone" />
+
+    <!-- Error state -->
+    <TextView
+        android:id="@+id/tvDlError"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Could not fetch formats.\nTry the Quick Download instead."
+        android:textColor="#e57373"
+        android:textSize="14sp"
+        android:padding="20dp"
+        android:gravity="center"
+        android:visibility="gone" />
+
+    <!-- Quick download buttons (always shown once loading done) -->
+    <LinearLayout
+        android:id="@+id/dlQuickButtons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingTop="8dp"
+        android:visibility="gone">
+
+        <Button
+            android:id="@+id/btnQuickBest"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginEnd="8dp"
+            android:text="Best Quality"
+            android:backgroundTint="#4A90E2"
+            android:textColor="#ffffff" />
+
+        <Button
+            android:id="@+id/btnQuickAudio"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Audio M4A"
+            android:backgroundTint="#2c7a2c"
+            android:textColor="#ffffff" />
+    </LinearLayout>
+
+</LinearLayout>
