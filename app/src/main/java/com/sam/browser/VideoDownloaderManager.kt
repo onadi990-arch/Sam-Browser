@@ -300,37 +300,39 @@ object VideoDownloaderManager {
     // API 29+ → MediaStore.Downloads, IS_PENDING pattern (atomic, crash-safe)
     // API 28- → Direct File copy (WRITE_EXTERNAL_STORAGE already in manifest)
 
-    private fun copyToPublicDownloads(ctx: Context, file: File): String? = try {
-        val mime = guessMimeType(file.extension)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            val values = ContentValues().apply {
-                put(MediaStore.Downloads.DISPLAY_NAME, file.name)
-                put(MediaStore.Downloads.MIME_TYPE, mime)
-                put(MediaStore.Downloads.RELATIVE_PATH, "Download/SamBrowser")
-                put(MediaStore.Downloads.IS_PENDING, 1)
-            }
-            val resolver   = ctx.contentResolver
-            val collection = MediaStore.Downloads.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY)
-            val uri = resolver.insert(collection, values) ?: return null
+    private fun copyToPublicDownloads(ctx: Context, file: File): String? {
+        return try {
+            val mime = guessMimeType(file.extension)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                val values = ContentValues().apply {
+                    put(MediaStore.Downloads.DISPLAY_NAME, file.name)
+                    put(MediaStore.Downloads.MIME_TYPE, mime)
+                    put(MediaStore.Downloads.RELATIVE_PATH, "Download/SamBrowser")
+                    put(MediaStore.Downloads.IS_PENDING, 1)
+                }
+                val resolver   = ctx.contentResolver
+                val collection = MediaStore.Downloads.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY)
+                val uri = resolver.insert(collection, values) ?: return null
 
-            resolver.openOutputStream(uri)?.use { out ->
-                file.inputStream().use { it.copyTo(out) }
-            }
+                resolver.openOutputStream(uri)?.use { out ->
+                    file.inputStream().use { it.copyTo(out) }
+                }
 
-            values.clear()
-            values.put(MediaStore.Downloads.IS_PENDING, 0)
-            resolver.update(uri, values, null, null)
-            uri.toString()
-        } else {
-            val dest = File(
-                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),
-                "SamBrowser"
-            ).also { it.mkdirs() }
-            file.copyTo(File(dest, file.name), overwrite = true).absolutePath
+                values.clear()
+                values.put(MediaStore.Downloads.IS_PENDING, 0)
+                resolver.update(uri, values, null, null)
+                uri.toString()
+            } else {
+                val dest = File(
+                    Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),
+                    "SamBrowser"
+                ).also { it.mkdirs() }
+                file.copyTo(File(dest, file.name), overwrite = true).absolutePath
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
         }
-    } catch (e: Exception) {
-        e.printStackTrace()
-        null
     }
 
     // ── Helpers ───────────────────────────────────────────────────────────
