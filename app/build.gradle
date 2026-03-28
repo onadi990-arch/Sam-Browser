@@ -9,6 +9,7 @@ android {
 
     defaultConfig {
         applicationId "com.sam.browser"
+        ndk { abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64' }
         minSdk 26
         targetSdk 34
         versionCode 1
@@ -32,6 +33,9 @@ android {
 }
 
 dependencies {
+	def ytdl = "0.18.1"
+	implementation "io.github.junkfood02.youtubedl-android:library:$ytdl"
+	implementation "io.github.junkfood02.youtubedl-android:ffmpeg:$ytdl"
     implementation 'androidx.core:core-ktx:1.12.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.11.0'

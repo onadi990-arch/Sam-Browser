@@ -1,6 +1,7 @@
 package com.sam.browser
 
 import android.Manifest
+import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
@@ -80,7 +81,6 @@ class MainActivity : AppCompatActivity() {
     private var barAnimator: ViewPropertyAnimator? = null
     private var lastScrollMs = 0L
     private val scope = CoroutineScope(Dispatchers.Main + SupervisorJob())
-    private var ytDlpReady = false
 
     companion object {
         const val PREFS_NAME = "SamBrowserPrefs"
@@ -425,9 +425,19 @@ class MainActivity : AppCompatActivity() {
             createNewTab(homeUrl)
         }
 
-        // Ensure yt-dlp binary is present in background
-        scope.launch(Dispatchers.IO) {
-            ytDlpReady = VideoDownloaderManager.ensureInstalled(this@MainActivity)
+        // Init youtubedl-android (bundles yt-dlp + FFmpeg — no manual download needed)
+        VideoDownloaderManager.init(this)
+
+        // Request POST_NOTIFICATIONS on Android 13+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
+                != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(Manifest.permission.POST_NOTIFICATIONS),
+                    102
+                )
+            }
         }
 
         // After first layout: record bar height, pad webview so content starts below bar
@@ -745,6 +755,11 @@ class MainActivity : AppCompatActivity() {
                         view.evaluateJavascript(s.code, null)
                     }
 
+                    // Cosmetic ad filter (CSS element hiding) — early injection
+                    if (adBlockEnabled) {
+                        view.evaluateJavascript(CosmeticFilter.buildScript(), null)
+                    }
+
                     tabs.find { it.webView === view }?.url = url
                     if (view === currentWebView()) {
                         addressBar.setText(url)
@@ -779,6 +794,11 @@ class MainActivity : AppCompatActivity() {
                     // Inject custom "finish" scripts
                     CustomJsManager.forStage(this@MainActivity, "finish").forEach { s ->
                         view.evaluateJavascript(s.code, null)
+                    }
+
+                    // Cosmetic ad filter — re-inject on finish to catch late-loaded ads
+                    if (adBlockEnabled) {
+                        view.evaluateJavascript(CosmeticFilter.buildScript(), null)
                     }
                 }
 
@@ -1377,22 +1397,6 @@ document.getElementById('out').innerHTML = md(raw);
         }
 
         scope.launch {
-            if (!ytDlpReady) {
-                tvStatus.text = "Setting up yt-dlp…"
-                ytDlpReady = withContext(Dispatchers.IO) {
-                    VideoDownloaderManager.ensureInstalled(this@MainActivity) { msg ->
-                        runOnUiThread { tvStatus.text = msg }
-                    }
-                }
-            }
-
-            if (!ytDlpReady) {
-                loading.visibility = View.GONE
-                tvError.visibility = View.VISIBLE
-                quickBtns.visibility = View.VISIBLE
-                return@launch
-            }
-
             tvStatus.text = "Fetching formats…"
             val formats = withContext(Dispatchers.IO) {
                 VideoDownloaderManager.getFormats(this@MainActivity, url)
